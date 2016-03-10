@@ -1,5 +1,6 @@
 class TransactionsController < ApplicationController
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
+ # before_action :token, only: [ :index, :show, :destroy, :create, :edit]
 
   # GET /transactions
   # GET /transactions.json
@@ -24,18 +25,16 @@ class TransactionsController < ApplicationController
   # POST /transactions
   # POST /transactions.json
   def create
-    @transaction = Transaction.new(transaction_params)
 
-    respond_to do |format|
-      if @transaction.save
-        format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
-        format.json { render :show, status: :created, location: @transaction }
-      else
-        format.html { render :new }
-        format.json { render json: @transaction.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+   transaction = Transaction.new()
+   transaction.product_req_id = (params[:product_req_id])
+   transaction.product_offered_id = (params[:product_offered_id])
+   if product.save
+    render json: 'Created', status: :ok 
+  else
+    render json: product.errors, status: :unprocessable_entity 
+  end  
+end
 
   # PATCH/PUT /transactions/1
   # PATCH/PUT /transactions/1.json
@@ -71,4 +70,4 @@ class TransactionsController < ApplicationController
     def transaction_params
       params.require(:transaction).permit(:product_req_id, :product_offered_id)
     end
-end
+  end
