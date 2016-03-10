@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
- before_action :token, only: [ :datetime, :update, :destroy]
+ before_action :token, only: [ :update, :destroy]
  def index
   @sessions = Session.all
   render json: {
@@ -16,27 +16,18 @@ class SessionsController < ApplicationController
       salt  = SecureRandom.random_bytes(1)
       key   = ActiveSupport::KeyGenerator.new('password').generate_key(salt) # => "\x89\xE0\x156\xAC..."
       crypt = ActiveSupport::MessageEncryptor.new(key)                       # => #<ActiveSupport::MessageEncryptor ...>
-      @encrypted_data = crypt.encrypt_and_sign(time)  
+      encrypted_data = crypt.encrypt_and_sign(time)  
       session = Session.new()         
       session.date = time
-      session.authtoken = @encrypted_data
+      session.authtoken = encrypted_data
       session.username = (params[:username])
       session.save
-      render json: 'authtoken:   ', status: :ok 
-    else
+      render json: 'authtoken:   ' + encrypted_data , status: :ok 
+    else 
      render json: 'Error: User or password invalid', status: :unprocessable_entity
    end
 
  end
- 
- def datetime
-
-
-   render json: {
-    status: 422,
-    message: cookies[:user_name] 
-    }.to_json
-  end
   def destroy
     log_out if logged_in?
     redirect_to root_path

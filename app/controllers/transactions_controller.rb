@@ -1,6 +1,6 @@
 class TransactionsController < ApplicationController
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
- # before_action :token, only: [ :index, :show, :destroy, :create, :edit]
+  before_action :token, only: [ :index, :show, :destroy, :create, :edit]
 
   # GET /transactions
   # GET /transactions.json
@@ -29,7 +29,7 @@ class TransactionsController < ApplicationController
    transaction = Transaction.new()
    transaction.product_req_id = (params[:product_req_id])
    transaction.product_offered_id = (params[:product_offered_id])
-   if product.save
+   if transaction.save
     render json: 'Created', status: :ok 
   else
     render json: product.errors, status: :unprocessable_entity 
