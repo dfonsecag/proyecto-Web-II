@@ -1,17 +1,7 @@
 Rails.application.routes.draw do
-  root "static#main"
-
-  get '/main' => "static#main"
-  get '/user' => "static#user"
-
-  get "/signup" => "users#new"
-  post "/signup" => "users#create"
-  get '/hora' => "sessions#datetime"
-  get '/agregar' => "sessions#hora"
-
-  get '/login' => "sessions#new"
-  post 'session/authenticate' => "sessions#create"
-  delete '/logout' => "sessions#destroy"
+  resources :transactions
+  resources :products
+  resources :sessions
   resources :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

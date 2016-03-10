@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   def index
     @users = User.all
   end
- 
+
   # GET /users/1
   # GET /users/1.json
   def show
@@ -69,6 +69,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:username, :password, :firstname, :authtoken)
+      params.require(:user).permit(:username, :firstname, :password_digest)
     end
 end
