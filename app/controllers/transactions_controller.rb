@@ -5,7 +5,9 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = Transaction.all
+    #@transactions = Transaction.all
+    @transactions = Transaction.joins(:Products)
+    render json: @transactions, status: :ok 
   end
 
   # GET /transactions/1
@@ -27,7 +29,7 @@ class TransactionsController < ApplicationController
   def create
 
    transaction = Transaction.new()
-   transaction.product_req_id = (params[:product_req_id])
+   transaction.product_id = (params[:product_req_id])
    transaction.product_offered_id = (params[:product_offered_id])
    if transaction.save
     render json: 'Created', status: :ok 

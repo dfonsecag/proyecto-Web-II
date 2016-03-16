@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
  before_action :set_product, only: [:show, :edit, :update, :destroy]
- before_action :token, only: [ :index, :show, :destroy, :create, :edit]
+ before_action :token, only: [ :index, :destroy, :create, :edit]
   # GET /products
   # GET /products.json
   def index
@@ -15,6 +15,8 @@ class ProductsController < ApplicationController
   # GET /products/1
   # GET /products/1.json
   def show
+     @product = Product.find(params[:id])
+      render json: @product, status: :ok 
   end
 
   # GET /products/new
